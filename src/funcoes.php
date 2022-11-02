@@ -16,6 +16,15 @@ class Funcoes
      * */
     public function SeculoAno(int $ano): int {
         
+        $seculo = $ano / 100;
+
+        if($seculo < 100){
+            return $seculo +1;
+        }
+        else
+        {
+            return $seculo;
+        } 
     }
 
     
@@ -37,7 +46,31 @@ class Funcoes
 
      * */
     public function PrimoAnterior(int $numero): int {
-        
+        $contador = 0;
+        $numero = $numero -1;
+        $numeroPrimioAnterior = 0;
+
+        for( $i = $numero; $i > 0; $i-- )
+        {
+            for($j = 1; $j < $i; $j++)
+            {
+                if( ($i % $j == 0) )
+                {
+                    $contador++;
+                }
+            }
+
+            if($contador == 1){
+                $numeroPrimioAnterior = $i;
+                break;
+            }
+            else
+            {
+                $contador = 0;
+            }
+
+        }
+        return $numeroPrimioAnterior;
     }
 
 
@@ -66,7 +99,22 @@ class Funcoes
 
      * */
     public function SegundoMaior(array $arr): int {
-        
+        $arrayComMaioresValores = [];
+        $aux = 0;
+        for($i = 0 ; $i < count($arr) ; $i++)
+        {
+            for($i2 = 0 ; $i2 < count($arr[0]) ; $i2++)
+            {
+                if($arr[$i][$i2] > $aux)
+                {
+                    $aux = $arr[$i][$i2];
+                }
+            }
+            $arrayComMaioresValores[$i] = $aux;
+            $aux = 0;
+        }
+        sort($arrayComMaioresValores);
+        return $arrayComMaioresValores[count($arrayComMaioresValores)-2];
     }
 	
 	
@@ -106,7 +154,102 @@ class Funcoes
 
      * */
     
-	public function SequenciaCrescente(array $arr): boolean {
+	public function SequenciaCrescente(array $arr): bool {
+        $verificaContador = 0;
+        $verificaContadorFinal = 0;
+        $duplicado=0;
+
+        for($i=0; $i < count($arr); $i++)
+        {
+            for($i2=0; $i2 < count($arr); $i2++)
+            {
+                if($arr[$i]==$arr[$i2] && $i != $i2){
+                    $duplicado=1;
+                }
+            }
+
+        }
+
+        for($i=0; $i < count($arr); $i++)
+        {
+            $aux=$arr[$i];
+
+            
+                for($i2=0; $i2 < count($arr); $i2++)
+                {
+                    if($i2+1 < count($arr))
+                    {
+                        if($duplicado == 0)
+                        {
+                            if($arr[$i2] != $aux )
+                            {
+                                if($arr[$i2] > $arr[$i2+1])
+                                {
+                                    
+                                    $verificaContador++;
+                                }
+                                
+                            }
+                        }
+                        else
+                        {
+                            if($arr[$i2] > $arr[$i2+1])
+                                {
+                                    
+                                    $verificaContador++;
+                                }
+                        }
+                        
+                    }
+                    
+                }
+
+                
+                $verificaContadorFinal = $verificaContador;
+                $verificaContador=0;
+            
+
+        }
         
+        if(($verificaContadorFinal<2 && $verificaContadorFinal!=0) || $verificaContadorFinal==0 && count($arr)==2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
+
+
+echo "\n\n-----------Teste 1:--------------\n";
+
+$teste_1 = New Funcoes();
+echo $teste_1->SeculoAno(101);
+echo "\n";
+echo $teste_1->SeculoAno(1);
+
+echo "\n\n-----------Teste 2:--------------\n";
+
+$teste_2 = new Funcoes();
+echo $teste_2->PrimoAnterior(29);
+
+echo "\n\n-----------Teste 3:--------------\n";
+
+$multidimensional = array (
+    array(25,22,18),
+    array(10,15,13),
+    array(24,5,2),
+    array(80,17,15)
+    );
+
+$teste_3 = new Funcoes();
+echo $teste_3->SegundoMaior($multidimensional);
+
+echo "\n\n-----------Teste 4:--------------\n";
+
+$arr_teste_4 = [3, 5, 67, 98, 3];
+$teste_4 = new Funcoes();
+var_dump($teste_4->SequenciaCrescente($arr_teste_4));
+
